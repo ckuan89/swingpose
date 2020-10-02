@@ -134,7 +134,7 @@ def predict_pose(video_path,out_path='video', out_name='output',dev='cpu'):
             frame = cv2.resize(frame, (width_out, int(
             width_out*height/width)), cv2.INTER_AREA)
 
-            frameClone, personwiseKeypoints=openpose.pose_detect(frame,net,inheight=368)
+            frameClone, personwiseKeypoints=openpose.pose_detect(frame,net,inheight=200)
             out.write(frameClone)
             cnt = cnt+1
             if(cnt == 1000):
