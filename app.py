@@ -5,7 +5,6 @@ import os
 from pathlib import Path
 import openpose
 import cv2
-st.write(cv2.__version__)
 import glob
 import os, urllib
 
@@ -138,7 +137,7 @@ def predict_pose(video_path,out_path='video', out_name='output',dev='cpu'):
             frameClone, personwiseKeypoints=openpose.pose_detect(frame,net,inheight=368)
             out.write(frameClone)
             cnt = cnt+1
-            if(cnt == 1):
+            if(cnt == 1000):
                 out.release()
                 break
 
