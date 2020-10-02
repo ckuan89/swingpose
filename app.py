@@ -78,10 +78,11 @@ def main():
         i=0
         for file_swing in file_list:
             i=i+1
+
             predict_pose(file_swing,input_size=input_size,out_path=str(path_video_out/filename/'output')
-            , out_name=file_swing.split(sep='/')[-1].split(sep='.')[0],
-            dev=device_input)
+            , out_name=file_swing.split(sep='/')[-1].split(sep='.')[0],dev=device_input)
             st.write(f'Swing {i}: '+file_swing.split(sep='/')[-1].split(sep='.')[0])
+            
             st.video(str(path_video_out/filename/'output'/file_swing.split(sep='/')[-1].split(sep='.')[0])+'.webm')
 
 
@@ -117,7 +118,7 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
 
     # frame rate of a video
     FPS = cap.get(cv2.CAP_PROP_FPS)
-    st.write(FPS)
+
     width_out = 640
 
     size_out = (width_out, int(width_out*height/width))
@@ -145,8 +146,9 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             print(cnt+1)
             frame = cv2.resize(frame, (width_out, int(
             width_out*height/width)), cv2.INTER_AREA)
-
+            t1=time.time()
             frameClone, personwiseKeypoints=openpose.pose_detect(frame,net,inheight=input_size)
+            st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
             if(cnt == 1000):
