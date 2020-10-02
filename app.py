@@ -1,6 +1,6 @@
 import streamlit as st
 import swing
-import pafy
+from pytube import YouTube
 import os
 from pathlib import Path
 import openpose
@@ -87,12 +87,22 @@ def main():
 
 
 def youtube_download(url,file,filepath):
-    
-    video = pafy.new(url)
-    clip = video.getbest(preftype="mp4")
-    clip.download(filepath)
-    os.rename(filepath/clip.filename,filepath/(file+'.mp4'))
 
+    yt = YouTube(url)
+
+    #Showing details
+    print("Title: ",yt.title)
+    print("Number of views: ",yt.views)
+    print("Length of video: ",yt.length)
+    print("Rating of video: ",yt.rating)
+    #Getting the lowest resolution possible
+    print(yt.streams.filter(progressive=True))
+    ys = yt.streams.get_lowest_resolution()
+
+    #Starting download
+    print("Downloading...")
+    ys.download(output_path=filepath,filename=file)
+    print("Download completed!!")
 
 
 def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='cpu'):
@@ -107,6 +117,7 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
 
     # frame rate of a video
     FPS = cap.get(cv2.CAP_PROP_FPS)
+    st.write(FPS)
     width_out = 640
 
     size_out = (width_out, int(width_out*height/width))
