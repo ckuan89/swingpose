@@ -34,7 +34,7 @@ def main():
         if download_butt == True:
             st.write('Downloading Youtube video...')
             youtube_download(youtube_url,filename,path_video)
-            st.video(str(path_video/filename))+'mp4')
+            st.video(str(path_video/filename))+'.mp4')
             st.write('Youtube video downloaded, click analyse to continue')
 
         start_analyse = st.button('Analyse')
