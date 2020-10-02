@@ -7,6 +7,7 @@ import openpose
 import cv2
 import glob
 import os, urllib
+import time
 
 path=Path()
 path_video=path/'video'
