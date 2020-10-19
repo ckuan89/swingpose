@@ -8,6 +8,7 @@ import cv2
 import glob
 import os, urllib
 import time
+import io
 
 path=Path()
 path_video=path/'video'
