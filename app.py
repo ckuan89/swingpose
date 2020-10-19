@@ -28,7 +28,7 @@ def main():
     if source == 'Youtube':
 
         youtube_url = st.text_input(
-            "Youtube url:", "https://www.youtube.com/watch?v=xpb2Dy-QVHo")
+            "Youtube url:", "https://www.youtube.com/watch?v=M8Juz-Je0FM")
         filename = st.text_input(
             "Filename:", "test")
         download_butt=st.button('Download youtube video')
@@ -50,7 +50,7 @@ def main():
         start_analyse = st.button('Analyse')
 
         if uploaded_file is not None:
-            g = io2.BytesIO(uploaded_file.read())  # BytesIO Object
+            g = io.BytesIO(uploaded_file.read())  # BytesIO Object
             temporary_location = path_video/(filename_ul+'.mp4')
 
             with open(temporary_location, 'wb') as out:  # Open temporary file as bytes
