@@ -64,7 +64,7 @@ def main():
     if start_analyse == True:
         st.write('Analysing...')
         #Swing Detection
-        if swing_det = 'Onset Detection':
+        if swing_det == 'Onset Detection':
             onset_times=swing.onset_detection(path_video/(filename+'.mp4'),cutoff=1000)
             st.write(str(len(onset_times))+ ' swings found.')
             
@@ -87,7 +87,7 @@ def main():
                 st.write(f'Swing {i}: '+file_swing.split(sep='/')[-1].split(sep='.')[0])
                 
                 st.video(str(path_video_out/filename/'output'/file_swing.split(sep='/')[-1].split(sep='.')[0])+'.webm')
-        elif swing_det = 'None':
+        elif swing_det == 'None':
             predict_pose(str(path_video/(filename+'.mp4')),input_size=input_size,out_path=str(path_video_out/filename/'output')
             , out_name=filename+'_out',dev=device_input)
 
