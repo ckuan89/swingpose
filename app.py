@@ -52,7 +52,7 @@ def main():
 
         if uploaded_file is not None:
             g = io.BytesIO(uploaded_file.read())  # BytesIO Object
-            temporary_location = path_video/(filename_ul+'.mp4')
+            temporary_location = path_video/(filename+'.mp4')
 
             with open(temporary_location, 'wb') as out:  # Open temporary file as bytes
                 out.write(g.read())  # Read bytes into file
