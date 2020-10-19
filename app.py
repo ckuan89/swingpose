@@ -88,11 +88,13 @@ def main():
                 
                 st.video(str(path_video_out/filename/'output'/file_swing.split(sep='/')[-1].split(sep='.')[0])+'.webm')
         elif swing_det == 'None':
+            (path_video_out/filename).mkdir(exist_ok=True)
+            (path_video_out/filename/'output').mkdir(exist_ok=True)
             predict_pose(str(path_video/(filename+'.mp4')),input_size=input_size,out_path=str(path_video_out/filename/'output')
             , out_name=filename+'_out',dev=device_input)
-
+            st.write(str(path_video_out/filename/'output')+filename+'_out')
             
-            st.video(str(path_video_out/filename/'output'/filename+'_out')+'.webm')
+            st.video(str(path_video_out/filename/'output'/(filename+'_out'))+'.webm')
 
 
 
@@ -162,7 +164,7 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             #st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
-            if(cnt == 1000):
+            if(cnt == 5):
                 out.release()
                 break
 
