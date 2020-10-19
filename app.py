@@ -164,7 +164,7 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             #st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
-            if(cnt == 5):
+            if(cnt == 1000):
                 out.release()
                 break
 
