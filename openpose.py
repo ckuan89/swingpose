@@ -9,8 +9,8 @@ from pathlib import Path
 
 def load_openpose(dev='cpu'):
     device = dev # please change it to "gpu" if the model needs to be run on cuda.
-    protoFile = "openpose/pose_deploy_linevec.prototxt"
-    weightsFile = "openpose/pose_iter_440000.caffemodel"
+    protoFile = "openpose/coco/pose_deploy_linevec.prototxt"
+    weightsFile = "openpose/coco/pose_iter_440000.caffemodel"
     net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
     if device == "cpu":

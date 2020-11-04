@@ -3,12 +3,14 @@ import swing
 from pytube import YouTube
 import os
 from pathlib import Path
-import openpose
+# import openpose
 import cv2
 import glob
 import os, urllib
 import time
 import io
+import openpose_single
+import json
 
 path=Path()
 path_video=path/'video'
@@ -21,8 +23,8 @@ def main():
         download_file(filename)
 
     st.title("Swing Detection")
-    source=st.sidebar.radio("Video from:",['Youtube','Upload a mp4 file'])
-    swing_det=st.sidebar.radio("Swing Detection Method:",['Onset Detection','Image Classification','None'])
+    source=st.sidebar.radio("Video from:",['Upload a mp4 file','Youtube'])
+    swing_det=st.sidebar.radio("Swing Detection Method:",['None','Onset Detection','Image Classification'])
     device_input=st.sidebar.radio("Device:",['cpu','gpu'])
     input_size = st.sidebar.slider('input size?', 200, 512, 358, 1)
 
@@ -90,11 +92,14 @@ def main():
         elif swing_det == 'None':
             (path_video_out/filename).mkdir(exist_ok=True)
             (path_video_out/filename/'output').mkdir(exist_ok=True)
-            predict_pose(str(path_video/(filename+'.mp4')),input_size=input_size,out_path=str(path_video_out/filename/'output')
+            keypoints=predict_pose(str(path_video/(filename+'.mp4')),input_size=input_size,out_path=str(path_video_out/filename/'output')
             , out_name=filename+'_out',dev=device_input)
             st.write(str(path_video_out/filename/'output')+filename+'_out')
             
             st.video(str(path_video_out/filename/'output'/(filename+'_out'))+'.webm')
+            with open(str(path_video_out/filename/'output'/(filename+'.json')), 'w') as fp:
+                json.dump(keypoints, fp)
+            st.write(json.dumps(keypoints))
 
 
 
@@ -120,7 +125,8 @@ def youtube_download(url,file,filepath):
 
 
 def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='cpu'):
-    net=openpose.load_openpose(dev=dev)
+    keypoints={}
+    net,nPoints, POSE_PAIRS=openpose_single.load_openpose(dev=dev, mode="MPI")
     
     # read the video
     # capture video
@@ -160,18 +166,24 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             frame = cv2.resize(frame, (width_out, int(
             width_out*height/width)), cv2.INTER_AREA)
             #t1=time.time()
-            frameClone, personwiseKeypoints=openpose.pose_detect(frame,net,inheight=input_size)
+            frameClone, points=openpose_single.pose_detect(frame,net,nPoints, POSE_PAIRS, inheight=input_size)
             #st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
-            if(cnt == 1000):
+            keypoints[cnt]=points
+            if(cnt == 500):
                 out.release()
+                
+                # st.write(keypoints)
                 break
 
         # Break the loop
         else:
             out.release()
+            
+            # st.write(keypoints)
             break
+    return keypoints
 
 
 def download_file(file_path):
@@ -215,9 +227,13 @@ def download_file(file_path):
 
 
 EXTERNAL_DEPENDENCIES = {
-    "openpose/pose_iter_440000.caffemodel": {
+    "openpose/coco/pose_iter_440000.caffemodel": {
         "url": "https://dl.dropboxusercontent.com/s/chm7rqv10771mzc/pose_iter_440000.caffemodel?dl=0",
         "size": 209274056
+    },
+    "openpose/mpi/pose_iter_160000.caffemodel": {
+        "url": "https://dl.dropboxusercontent.com/s/4fzr4d2lp3ps6yp/pose_iter_160000.caffemodel?dl=0",
+        "size": 205950363
     }
 }
 
