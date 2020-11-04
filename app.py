@@ -131,6 +131,8 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
     # read the video
     # capture video
     cap = cv2.VideoCapture(video_path)
+    total_frame=int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    progress=st.warning(f"Frame: {0}/{total_frame}")
 
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -170,6 +172,7 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             #st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
+            progress.warning(f"Frame: {cnt}/{total_frame}")
             keypoints[cnt]=points
             if(cnt == 500):
                 out.release()
