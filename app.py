@@ -1,6 +1,6 @@
 import streamlit as st
 #import swing
-from pytube import YouTube
+#from pytube import YouTube
 import os
 from pathlib import Path
 # import openpose
@@ -29,19 +29,20 @@ def main():
     input_size = st.sidebar.slider('input size?', 200, 512, 250, 1)
 
     if source == 'Youtube':
+        st.write("Use file upload")
 
-        youtube_url = st.text_input(
-            "Youtube url:", "https://www.youtube.com/watch?v=M8Juz-Je0FM")
-        filename = st.text_input(
-            "Filename:", "test")
-        download_butt=st.button('Download youtube video')
-        if download_butt == True:
-            st.write('Downloading Youtube video...')
-            youtube_download(youtube_url,filename,path_video)
-            st.video(str(path_video/filename)+'.mp4')
-            st.write('Youtube video downloaded, click analyse to continue')
+        # youtube_url = st.text_input(
+        #     "Youtube url:", "https://www.youtube.com/watch?v=M8Juz-Je0FM")
+        # filename = st.text_input(
+        #     "Filename:", "test")
+        # download_butt=st.button('Download youtube video')
+        # if download_butt == True:
+        #     st.write('Downloading Youtube video...')
+        #     youtube_download(youtube_url,filename,path_video)
+        #     st.video(str(path_video/filename)+'.mp4')
+        #     st.write('Youtube video downloaded, click analyse to continue')
 
-        start_analyse = st.button('Analyse')
+        # start_analyse = st.button('Analyse')
         
     elif source == 'Upload a mp4 file':
         
@@ -67,7 +68,7 @@ def main():
         st.write('Analysing...')
         #Swing Detection
         if swing_det == 'Onset Detection':
-            print("")
+            st.write("Use None")
             # onset_times=swing.onset_detection(path_video/(filename+'.mp4'),cutoff=1000)
             # st.write(str(len(onset_times))+ ' swings found.')
             
