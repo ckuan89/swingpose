@@ -67,6 +67,7 @@ def main():
         st.write('Analysing...')
         #Swing Detection
         if swing_det == 'Onset Detection':
+            print("")
             # onset_times=swing.onset_detection(path_video/(filename+'.mp4'),cutoff=1000)
             # st.write(str(len(onset_times))+ ' swings found.')
             
