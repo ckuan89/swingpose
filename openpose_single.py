@@ -42,6 +42,7 @@ def pose_detect(frame,net,nPoints, POSE_PAIRS, inheight=368):
     image1 = frame
     frameWidth = image1.shape[1]
     frameHeight = image1.shape[0]
+    print(frameWidth,frameHeight)
     threshold = 0.1
  
     # Fix the input Height and get the width according to the Aspect Ratio
@@ -55,6 +56,7 @@ def pose_detect(frame,net,nPoints, POSE_PAIRS, inheight=368):
     output = net.forward()
     H = output.shape[2]
     W = output.shape[3]
+    timetaken=(time.time() - t)
     print("Time Taken = {}".format(time.time() - t))
 
 

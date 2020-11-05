@@ -26,7 +26,7 @@ def main():
     source=st.sidebar.radio("Video from:",['Upload a mp4 file','Youtube'])
     swing_det=st.sidebar.radio("Swing Detection Method:",['None','Onset Detection','Image Classification'])
     device_input=st.sidebar.radio("Device:",['cpu','gpu'])
-    input_size = st.sidebar.slider('input size?', 200, 512, 358, 1)
+    input_size = st.sidebar.slider('input size?', 200, 512, 250, 1)
 
     if source == 'Youtube':
 
@@ -94,7 +94,7 @@ def main():
             (path_video_out/filename/'output').mkdir(exist_ok=True)
             keypoints=predict_pose(str(path_video/(filename+'.mp4')),input_size=input_size,out_path=str(path_video_out/filename/'output')
             , out_name=filename+'_out',dev=device_input)
-            st.write(str(path_video_out/filename/'output')+filename+'_out')
+            st.write(str(path_video_out/filename/'output')+'/'+filename+'_out')
             
             st.video(str(path_video_out/filename/'output'/(filename+'_out'))+'.webm')
             with open(str(path_video_out/filename/'output'/(filename+'.json')), 'w') as fp:
@@ -142,7 +142,12 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
 
     width_out = 640
 
-    size_out = (width_out, int(width_out*height/width))
+    # select region of interest (human)
+    roi_width=250
+    roi_height=250
+
+    # size_out = (width_out, int(width_out*height/width))
+    size_out = (250, 250)
     out = cv2.VideoWriter(out_path + '/' + out_name + '.webm',
                           cv2.VideoWriter_fourcc(*'VP90'), FPS, size_out)
 
@@ -167,8 +172,12 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
             print(cnt+1)
             frame = cv2.resize(frame, (width_out, int(
             width_out*height/width)), cv2.INTER_AREA)
+
+            # select ROI
+            frameROI=frame[int(
+            width_out*height/width)-roi_height:,0:roi_width]
             #t1=time.time()
-            frameClone, points=openpose_single.pose_detect(frame,net,nPoints, POSE_PAIRS, inheight=input_size)
+            frameClone, points=openpose_single.pose_detect(frameROI,net,nPoints, POSE_PAIRS, inheight=input_size)
             #st.write([cnt,time.time()-t1])
             out.write(frameClone)
             cnt = cnt+1
