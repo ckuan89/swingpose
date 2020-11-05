@@ -1,7 +1,7 @@
 ################### onset detection ###################
 
 import numpy as np
-#import librosa
+import librosa
 #import matplotlib.pyplot as plt
 from pathlib import Path
 

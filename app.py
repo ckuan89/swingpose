@@ -1,5 +1,5 @@
 import streamlit as st
-import swing
+#import swing
 from pytube import YouTube
 import os
 from pathlib import Path
@@ -67,28 +67,28 @@ def main():
         st.write('Analysing...')
         #Swing Detection
         if swing_det == 'Onset Detection':
-            onset_times=swing.onset_detection(path_video/(filename+'.mp4'),cutoff=1000)
-            st.write(str(len(onset_times))+ ' swings found.')
+            # onset_times=swing.onset_detection(path_video/(filename+'.mp4'),cutoff=1000)
+            # st.write(str(len(onset_times))+ ' swings found.')
             
-            #Cut video
-            swing.cut_video(filename,onset_times,path_video_out,duration=3)
+            # #Cut video
+            # swing.cut_video(filename,onset_times,path_video_out,duration=3)
             
-            #create and sort file list
-            file_list=glob.glob(str(path_video_out/filename/'*.mp4'),recursive=False)
-            file_list.sort(key=lambda x:int(x.split(sep=f'{filename}_')[1].split(sep='.')[0]))
-            #st.write(file_list)
-            (path_video_out/filename/'output').mkdir(exist_ok=True)
+            # #create and sort file list
+            # file_list=glob.glob(str(path_video_out/filename/'*.mp4'),recursive=False)
+            # file_list.sort(key=lambda x:int(x.split(sep=f'{filename}_')[1].split(sep='.')[0]))
+            # #st.write(file_list)
+            # (path_video_out/filename/'output').mkdir(exist_ok=True)
             
-            #detect pose for videos
-            i=0
-            for file_swing in file_list:
-                i=i+1
+            # #detect pose for videos
+            # i=0
+            # for file_swing in file_list:
+            #     i=i+1
 
-                predict_pose(file_swing,input_size=input_size,out_path=str(path_video_out/filename/'output')
-                , out_name=file_swing.split(sep='/')[-1].split(sep='.')[0],dev=device_input)
-                st.write(f'Swing {i}: '+file_swing.split(sep='/')[-1].split(sep='.')[0])
+            #     predict_pose(file_swing,input_size=input_size,out_path=str(path_video_out/filename/'output')
+            #     , out_name=file_swing.split(sep='/')[-1].split(sep='.')[0],dev=device_input)
+            #     st.write(f'Swing {i}: '+file_swing.split(sep='/')[-1].split(sep='.')[0])
                 
-                st.video(str(path_video_out/filename/'output'/file_swing.split(sep='/')[-1].split(sep='.')[0])+'.webm')
+            #     st.video(str(path_video_out/filename/'output'/file_swing.split(sep='/')[-1].split(sep='.')[0])+'.webm')
         elif swing_det == 'None':
             (path_video_out/filename).mkdir(exist_ok=True)
             (path_video_out/filename/'output').mkdir(exist_ok=True)
