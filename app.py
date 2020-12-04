@@ -145,11 +145,11 @@ def predict_pose(video_path,input_size,out_path='video', out_name='output',dev='
     width_out = 640
 
     # select region of interest (human)
-    roi_width=250
-    roi_height=250
+    roi_width=width_out
+    roi_height=int(width_out*height/width)
 
-    # size_out = (width_out, int(width_out*height/width))
-    size_out = (250, 250)
+    size_out = (width_out, int(width_out*height/width))
+    # size_out = (250, 250)
     out = cv2.VideoWriter(out_path + '/' + out_name + '.webm',
                           cv2.VideoWriter_fourcc(*'VP90'), FPS, size_out)
 
